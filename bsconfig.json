@@ -1,0 +1,15 @@
+{
+    "name": "bs-intl",
+    "sources": [
+      "src"
+    ],
+    "bs-dependencies": [],
+    "reason": {},
+    "refmt": 3,
+    "bsc-flags": ["-bs-super-errors"],
+    "package-specs": {
+      "module": "commonjs",
+      "in-source": true
+    },
+    "suffix": ".bs.js"
+  }

@@ -1,0 +1,38 @@
+{
+    "name": "bs-intl",
+    "version": "0.1.0",
+    "description": "BuckleScript bindings to Intl",
+    "author": "Jim Berlage <james.berlage@gmail.com>",
+    "license": "MIT",
+    "main": "src/Intl.bs.js",
+    "scripts": {
+        "build": "bsb -clean-world -make-world",
+        "clean": "bsb -clean-world",
+        "preextract": "yarn run build",
+        "format": "bsrefmt --in-place **/*.re",
+        "test": "exit 0",
+        "preversion": "yarn run clean"
+    },
+    "peerDependencies": {
+        "bs-platform": "^5.0.0"
+    },
+    "devDependencies": {
+        "bs-platform": "5.0.0",
+        "bsb-js": "^1.1.7"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jimberlage/bs-intl.git"
+    },
+    "files": [
+        "src",
+        "bsconfig.json"
+    ],
+    "keywords": [
+        "i18n",
+        "reason",
+        "reasonml",
+        "ocaml",
+        "bucklescript"
+    ]
+}
