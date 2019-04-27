@@ -18,9 +18,9 @@ type newDateTimeFormatOptions = {
     [@bs.optional] mutable year: string,
 };
 
-type t = {
-    format: (Js.Date.t) => string,
-};
+type t;
+
+[@bs.send] external format: (t, Js.Date.t) => string = "format";
 
 [@bs.new] [@bs.scope "Intl"] external newJSDateTimeFormat: (array(string), newDateTimeFormatOptions) => t = "DateTimeFormat";
 
@@ -120,5 +120,3 @@ let make = (~locales, ~day: option(day)=?, ~era: option(era)=?, ~formatMatcher=?
     };
     newJSDateTimeFormat(locales, opts)
 };
-
-let format = (formatter, date) => formatter.format(date);
