@@ -1,12 +1,23 @@
 {
     "name": "bs-intl",
     "sources": [
-      "src"
+      {
+        "dir": "src"
+      },
+      {
+        "dir": "__tests__",
+        "type": "dev"
+      }
     ],
     "bs-dependencies": [],
+    "bs-dev-dependencies": [
+      "@glennsl/bs-jest"
+    ],
     "reason": {},
     "refmt": 3,
-    "bsc-flags": ["-bs-super-errors"],
+    "bsc-flags": [
+      "-bs-super-errors"
+    ],
     "package-specs": {
       "module": "commonjs",
       "in-source": true
