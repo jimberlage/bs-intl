@@ -10,13 +10,14 @@
         "clean": "bsb -clean-world",
         "preextract": "yarn run build",
         "format": "bsrefmt --in-place **/*.re",
-        "test": "exit 0",
+        "test": "yarn run build && jest",
         "preversion": "yarn run clean"
     },
     "peerDependencies": {
         "bs-platform": "^5.0.0"
     },
     "devDependencies": {
+        "@glennsl/bs-jest": "^0.4.8",
         "bs-platform": "5.0.0",
         "bsb-js": "^1.1.7"
     },
