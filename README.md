@@ -1,6 +1,7 @@
 # bs-intl
 
 [![NPM](https://nodei.co/npm/bs-intl.png?compact=true)](https://nodei.co/npm/bs-intl/)
+[![CircleCI](https://circleci.com/gh/jimberlage/bs-intl.svg?style=svg)](https://circleci.com/gh/jimberlage/bs-intl)
 
 A port of the [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) utilities of JS to Reason.
 
