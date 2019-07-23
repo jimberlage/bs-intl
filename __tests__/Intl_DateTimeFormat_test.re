@@ -9,9 +9,9 @@ let () = {
 
         Jest.describe("resolvedOptions", () => {
             Jest.test("it shows all the configured options for the given formatter", () => {
-                let dt = Intl.DateTimeFormat.make(~locales=[|"de-DE"|], ~localeMatcher=BestFit, ~weekday=Narrow, ());
+                let dt = Intl.DateTimeFormat.make(~locales=[|"de-DE"|], ~localeMatcher=BestFit, ~weekday=Long, ());
                 Jest.Expect.expect(Intl.DateTimeFormat.resolvedOptions(dt).weekday)
-                |> Jest.Expect.toEqual(Some(Intl.DateTimeFormat.Narrow));
+                |> Jest.Expect.toEqual(Some(Intl.DateTimeFormat.Long));
             })
         })
 
