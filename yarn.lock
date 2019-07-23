@@ -617,15 +617,20 @@ browser-resolve@^1.11.3:
   dependencies:
     resolve "1.1.7"
 
-bs-platform@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.0.tgz#f9fded818bafc3891aeb85eb4e0d95b8d8f8b4d7"
-  integrity sha512-zxLobdIaf/r7go47hOgxcd6C0ANh7MYMEtZNb9Al7JdoekzFZI50F4GpZpP8kMh9Z+M5PoPE1WuryT4S8mT8Kg==
+bs-platform@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-6.0.0.tgz#92b2a45787538289b63b7a4e3611bb661e01c1f6"
+  integrity sha512-6PWtziwGNtR1fbY4EP1h9M8jsLBOVt3/bIa/HCyf6dRA/WNygKXsj3s5QIqmhbjBozCLUtinY8jpas9Y6pdbVA==
 
 bsb-js@^1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/bsb-js/-/bsb-js-1.1.7.tgz#12cc91e974f5896b3a2aa8358419d24e56f552c3"
   integrity sha512-FSR7d5Kb6KfVI5sLz9bEeD9pbA9F4Zbkk1xa6R9CJtyd+dJ7mIkxoXqv7cw7HWcuee+VpIhmjYzrplnFd/5Qgg==
+
+bsdoc@^6.0.2-alpha:
+  version "6.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/bsdoc/-/bsdoc-6.0.2-alpha.tgz#77956e2f29c62592e275a6704667dab000b07da3"
+  integrity sha512-Zr3Z4U+lynz6FK9vqz+45jTBlKgWJ6iUssQcAU+2QUGtGMg0TNEJz2QEOvwkz5ZFVv+gLbF+c8sbhkYO4OjLJg==
 
 bser@^2.0.0:
   version "2.1.0"

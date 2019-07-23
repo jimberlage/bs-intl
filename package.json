@@ -18,8 +18,9 @@
     },
     "devDependencies": {
         "@glennsl/bs-jest": "^0.4.8",
-        "bs-platform": "5.0.0",
-        "bsb-js": "^1.1.7"
+        "bs-platform": "6.0.0",
+        "bsb-js": "^1.1.7",
+        "bsdoc": "^6.0.2-alpha"
     },
     "repository": {
         "type": "git",
