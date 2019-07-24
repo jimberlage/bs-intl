@@ -1,10 +1,10 @@
 (** Provides a shim to the Javascript number internationalization APIs.
 
-For a pretty good introduction to the Intl.NumberFormat API, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
+For a pretty good introduction to the [Intl.NumberFormat] API, see {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat}
 
-Note that nodejs does **not** come with the necessary internationalization files by default.  If this library isn't working for you in a nodejs context, that's likely the reason.  You'll need to roll your own node, or use something like https://github.com/unicode-org/full-icu-npm *)
+Note that nodejs does {b not} come with the necessary internationalization files by default.  If this library isn't working for you in a nodejs context, that's likely the reason.  You'll need to roll your own node, or use something like {{:https://github.com/unicode-org/full-icu-npm} https://github.com/unicode-org/full-icu-npm} *)
 
-(** The [Intl.NumberFormat](https://www.ecma-international.org/ecma-402/1.0/#sec-11) type. *)
+(** The {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11} [Intl.NumberFormat]} type. *)
 type t
 
 type localeMatcher = Lookup | BestFit
@@ -31,9 +31,9 @@ type insignificantDigits = {
 }
 type digits = Insignificant of insignificantDigits | Significant of significantDigits
 
-(** Create a new Intl.NumberFormat object with the specified options.
+(** Create a new [Intl.NumberFormat] object with the specified options.
 
- See here for a description of how the arguments are processed and used: https://www.ecma-international.org/ecma-402/1.0/#sec-11.1.3.1
+ See here for a description of how the arguments are processed and used: {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11.1.3.1} https://www.ecma-international.org/ecma-402/1.0/#sec-11.1.3.1}
 
  We don't try to match the JS arguments exactly, because OCaml's type system offers some additional safety here.
 
@@ -41,7 +41,7 @@ type digits = Insignificant of insignificantDigits | Significant of significantD
 
  A similar approach works for the minimumSignificantDigits, minimumIntegerDigits, etc.  Since only one set of bounds may be used, the type system forces you to pick.
 
- @example {[
+ {[
   let formatter = Intl.NumberFormat.make
     ~locales:[|"fr"|]
     ~style:Percent
@@ -53,9 +53,9 @@ type digits = Insignificant of insignificantDigits | Significant of significantD
  *)
 val make: locales:string array -> ?localeMatcher:localeMatcher -> ?style:style -> ?useGrouping:bool -> ?digits:digits -> unit -> t
 
-(** Calls [Intl.NumberFormat.prototype.format](https://www.ecma-international.org/ecma-402/1.0/#sec-11.3.2).
+(** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11.3.2} [Intl.NumberFormat.prototype.format]}.
 
- @example {[
+ {[
   let formatter = Intl.NumberFormat.make
     ~locales:[|"es-ES"|]
     ~style:(Currency { isoCode = "EUR"; display = Some Symbol })
@@ -81,11 +81,11 @@ type part = {
 
 exception InvalidPart of rawPart
 
-(** Calls [Intl.NumberFormat.prototype.formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts).
+(** Calls {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts} [Intl.NumberFormat.prototype.formatToParts]}.
 
  @raise [InvalidPart] if a part type doesn't match the possible types outlined in MDN.
 
- @example {[
+ {[
   let formatter = Intl.NumberFormat.make
     ~locales:[|"es-ES"|]
     ~style:(Currency { isoCode = "EUR"; display = Some Symbol })
@@ -99,9 +99,9 @@ exception InvalidPart of rawPart
  *)
 val formatToParts: t -> float -> part array
 
-(** Calls [Intl.NumberFormat.supportedLocalesOf](https://www.ecma-international.org/ecma-402/1.0/#sec-11.2.2).
+(** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11.2.2} [Intl.NumberFormat.supportedLocalesOf]}.
 
- @example {[
+ {[
   let supported = Intl.NumberFormat.supportedLocalesOf [|"en-GB"; "ridiculous"|] () in
   Js.Console.log (string_of_int (Belt.Array.length supported))
  ]}

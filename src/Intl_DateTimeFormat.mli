@@ -1,13 +1,13 @@
 (** Provides a shim to the Javascript datetime internationalization APIs.
 
-For a pretty good introduction to the Intl.DateTimeFormat API, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
+For a pretty good introduction to the Intl.DateTimeFormat API, see {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat}
 
-Note that nodejs does **not** come with the necessary internationalization files by default.  If this library isn't working for you in a nodejs context, that's likely the reason.  You'll need to roll your own node, or use something like https://github.com/unicode-org/full-icu-npm *)
+Note that nodejs does {b not} come with the necessary internationalization files by default.  If this library isn't working for you in a nodejs context, that's likely the reason.  You'll need to roll your own node, or use something like {{:https://github.com/unicode-org/full-icu-npm} https://github.com/unicode-org/full-icu-npm} *)
 
-(** The [Intl.DateTimeFormat](https://www.ecma-international.org/ecma-402/1.0/#sec-12) type. *)
+(** The {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12} [Intl.DateTimeFormat]} type. *)
 type t
 
-(** See this table for an overview of what strings these types match with: https://www.ecma-international.org/ecma-402/1.0/#table-3
+(** @see <https://www.ecma-international.org/ecma-402/1.0/#table-3> See this table for an overview of what strings these types match with.
  *)
 
 type day = Numeric | TwoDigit
@@ -23,11 +23,11 @@ type timeZoneName = Long | Short
 type weekday = Long | Short | Narrow
 type year = Numeric | TwoDigit
 
-(** Create a new Intl.DateTimeFormat object with the specified options.
+(** Create a new [Intl.DateTimeFormat] object with the specified options.
  
- See here for a description of how the arguments are processed and used: https://www.ecma-international.org/ecma-402/1.0/#sec-12.1.3.1
+ See here for a description of how the arguments are processed and used: {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.1.3.1} https://www.ecma-international.org/ecma-402/1.0/#sec-12.1.3.1}
 
- @example {[
+ {[
    let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
    let dateStr = Intl.DateTimeFormat.format formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
    Js.Console.log dateStr
@@ -35,9 +35,9 @@ type year = Numeric | TwoDigit
  *)
 val make: locales:string array -> ?day:day -> ?era:era -> ?formatMatcher:formatMatcher -> ?hour:hour -> ?hour12:bool -> ?hourCycle:hourCycle -> ?localeMatcher:localeMatcher -> ?minute:minute -> ?month:month -> ?second:second -> ?timeZone:string -> ?timeZoneName:timeZoneName -> ?weekday:weekday -> ?year:year -> unit -> t
 
-(** A type representing the un-ocaml-ified response from Intl.DateTimeFormat.prototype.resolvedOptions.
+(** A type representing the un-ocaml-ified response from [Intl.DateTimeFormat.prototype.resolvedOptions].
 
- Only use if you have reason to believe that your JS environment is returning results from that method that don't conform to the spec here: https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3
+ Only use if you have reason to believe that your JS environment is returning results from that method that don't conform to the spec here: {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3} https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3}
  *)
 type rawResolvedOptionsResp = {
   locale: string [@bs.optional];
@@ -56,11 +56,11 @@ type rawResolvedOptionsResp = {
   timeZoneName: string [@bs.optional];
 } [@@bs.deriving abstract]
 
-(** Get the un-ocaml-ified response from Intl.DateTimeFormat.prototype.resolvedOptions.
+(** Get the un-ocaml-ified response from [Intl.DateTimeFormat.prototype.resolvedOptions].
 
- Only use if you have reason to believe that your JS environment is returning results from that method that don't conform to the spec here: https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3
+ Only use if you have reason to believe that your JS environment is returning results from that method that don't conform to the spec here: {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3} https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3}
 
- Otherwise, `resolvedOptions` is preferable.
+ Otherwise, [resolvedOptions] is preferable.
  *)
 val rawResolvedOptions: t -> rawResolvedOptionsResp
 
@@ -74,11 +74,11 @@ exception InvalidMinute of string
 exception InvalidSecond of string
 exception InvalidTimeZoneName of string
 
-(** A type representing a strongly-typed response from Intl.DateTimeFormat.prototype.resolvedOptions.
+(** A type representing a strongly-typed response from [Intl.DateTimeFormat.prototype.resolvedOptions].
 
- See the response spec here: https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3
+ @see <https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3> See the response spec here.
 
- The table of valid options is also helpful: https://www.ecma-international.org/ecma-402/1.0/#table-3
+ @see <https://www.ecma-international.org/ecma-402/1.0/#table-3> The table of valid options is also helpful.
  *)
 type resolvedOptionsResp = {
   locale: string option;
@@ -97,7 +97,7 @@ type resolvedOptionsResp = {
   timeZoneName: timeZoneName option;
 }
 
-(** Calls [Intl.DateTimeFormat.prototype.resolvedOptions](https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3).
+(** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.3} [Intl.DateTimeFormat.prototype.resolvedOptions]}.
  
  Output is not stringly-typed, like the original.
 
@@ -111,7 +111,7 @@ type resolvedOptionsResp = {
  @raise [InvalidSecond] if the returned second doesn't match a value in the spec
  @raise [InvalidTimeZoneName] if the returned time zone name doesn't match a value in the spec
 
- @example {[
+ {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
   match Intl.DateTimeFormat.resolvedOptions formatter with
   | { category = category; _ } -> Js.Console.log category
@@ -119,9 +119,9 @@ type resolvedOptionsResp = {
  *)
 val resolvedOptions: t -> resolvedOptionsResp
 
-(** Calls [Intl.DateTimeFormat.prototype.format](https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.2).
+(** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.2} [Intl.DateTimeFormat.prototype.format]}.
 
- @example {[
+ {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
   let dateStr = Intl.DateTimeFormat.format formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
   Js.Console.log dateStr
@@ -143,11 +143,11 @@ type part = {
 
 exception InvalidPart of rawPart
 
-(** Calls [Intl.DateTimeFormat.prototype.formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/formatToParts).
+(** Calls {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/formatToParts} [Intl.DateTimeFormat.prototype.formatToParts]}.
 
  @raise [InvalidPart] if a part type doesn't match the possible types outlined in MDN.
 
- @example {[
+ {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"zh-CN"|] ~era:Long ~year:Numeric () in
   let parts = Intl.DateTimeFormat.formatToParts formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
   match parts with
@@ -157,9 +157,9 @@ exception InvalidPart of rawPart
  *)
 val formatToParts: t -> Js.Date.t -> part array
 
-(** Calls [Intl.DateTimeFormat.supportedLocalesOf](https://www.ecma-international.org/ecma-402/1.0/#sec-12.2.2).
+(** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.2.2} [Intl.DateTimeFormat.supportedLocalesOf]}.
 
- @example {[
+ {[
   let supported = Intl.DateTimeFormat.supportedLocalesOf [|"en-GB"; "ridiculous"|] () in
   Js.Console.log (string_of_int (Belt.Array.length supported))
  ]}
