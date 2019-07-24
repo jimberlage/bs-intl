@@ -27,10 +27,20 @@ type year = Numeric | TwoDigit
  
  See here for a description of how the arguments are processed and used: {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.1.3.1} https://www.ecma-international.org/ecma-402/1.0/#sec-12.1.3.1}
 
+ OCaml:
+
  {[
-   let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
-   let dateStr = Intl.DateTimeFormat.format formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
-   Js.Console.log dateStr
+  let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
+  let dateStr = Intl.DateTimeFormat.format formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
+  Js.Console.log dateStr
+ ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.DateTimeFormat.make(~locales=[|"en-GB"|], ~month=TwoDigit, ());
+  let dateStr = Intl.DateTimeFormat.format(formatter, Js.Date.makeWithYMD(~year=2019.0, ~month=6.0, ~date=22.0, ()));
+  Js.Console.log(dateStr);
  ]}
  *)
 val make: locales:string array -> ?day:day -> ?era:era -> ?formatMatcher:formatMatcher -> ?hour:hour -> ?hour12:bool -> ?hourCycle:hourCycle -> ?localeMatcher:localeMatcher -> ?minute:minute -> ?month:month -> ?second:second -> ?timeZone:string -> ?timeZoneName:timeZoneName -> ?weekday:weekday -> ?year:year -> unit -> t
@@ -111,20 +121,41 @@ type resolvedOptionsResp = {
  @raise [InvalidSecond] if the returned second doesn't match a value in the spec
  @raise [InvalidTimeZoneName] if the returned time zone name doesn't match a value in the spec
 
+ OCaml:
+
  {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
   match Intl.DateTimeFormat.resolvedOptions formatter with
   | { category = category; _ } -> Js.Console.log category
+ ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.DateTimeFormat.make(~locales=[|"en-GB"|], ~month=TwoDigit, ());
+  switch (Intl.DateTimeFormat.resolvedOptions(formatter)) {
+  | {category: category} => Js.Console.log(category)
+  }
  ]}
  *)
 val resolvedOptions: t -> resolvedOptionsResp
 
 (** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.3.2} [Intl.DateTimeFormat.prototype.format]}.
 
+ OCaml:
+
  {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"en-GB"|] ~month:TwoDigit () in
   let dateStr = Intl.DateTimeFormat.format formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
   Js.Console.log dateStr
+ ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.DateTimeFormat.make(~locales=[|"en-GB"|], ~month=TwoDigit, ());
+  let dateStr = Intl.DateTimeFormat.format(formatter, Js.Date.makeWithYMD(~year=2019.0, ~month=6.0, ~date=22.0, ()));
+  Js.Console.log(dateStr);
  ]}
  *)
 val format: t -> Js.Date.t -> string
@@ -147,21 +178,43 @@ exception InvalidPart of rawPart
 
  @raise [InvalidPart] if a part type doesn't match the possible types outlined in MDN.
 
+ OCaml:
+
  {[
   let formatter = Intl.DateTimeFormat.make ~locales:[|"zh-CN"|] ~era:Long ~year:Numeric () in
   let parts = Intl.DateTimeFormat.formatToParts formatter (Js.Date.makeWithYMD ~year:2019.0 ~month:6.0 ~date:22.0 ()) in
   match parts with
-  | [] -> ()
+  | [||] -> ()
   | { value = value; _ } :: _ -> Js.Console.log value
+ ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.DateTimeFormat.make(~locales=[|"zh-CN"|], ~era=Long, ~year=Numeric, ());
+  let parts = Intl.DateTimeFormat.formatToParts(formatter, Js.Date.makeWithYMD(~year=2019.0, ~month=6.0, ~date=22.0, ()));
+  switch (parts) {
+  | [||] => ()
+  | [|{value: value}, ..._|] => Js.Console.log(value)
+  };
  ]}
  *)
 val formatToParts: t -> Js.Date.t -> part array
 
 (** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-12.2.2} [Intl.DateTimeFormat.supportedLocalesOf]}.
 
+ OCaml:
+
  {[
   let supported = Intl.DateTimeFormat.supportedLocalesOf [|"en-GB"; "ridiculous"|] () in
   Js.Console.log (string_of_int (Belt.Array.length supported))
+ ]}
+
+ Reason:
+
+ {[
+  let supported = Intl.DateTimeFormat.supportedLocalesOf([|"en-GB", "ridiculous"|], ());
+  Js.Console.log(string_of_int(Belt.Array.length(supported)));
  ]}
  *)
 val supportedLocalesOf: string array -> ?localeMatcher:localeMatcher -> unit -> string array

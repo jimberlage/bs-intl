@@ -7,12 +7,20 @@ A port of the [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 ## Documentation
 
-Docs are hosted at https://jimberlage.github.io/bs-intl/
+API docs are hosted at https://jimberlage.github.io/bs-intl/.  Documentation comes with examples on how to use each function.
 
 ## Installation
 
 ```bash
 yarn add bs-intl
+```
+
+In your `bsconfig.json` file, add a reference to this library:
+
+```json
+{
+    "bs-dependencies": ["bs-intl"]
+}
 ```
 
 ## Status

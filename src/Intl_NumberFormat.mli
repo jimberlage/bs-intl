@@ -41,6 +41,8 @@ type digits = Insignificant of insignificantDigits | Significant of significantD
 
  A similar approach works for the minimumSignificantDigits, minimumIntegerDigits, etc.  Since only one set of bounds may be used, the type system forces you to pick.
 
+ OCaml:
+
  {[
   let formatter = Intl.NumberFormat.make
     ~locales:[|"fr"|]
@@ -50,10 +52,24 @@ type digits = Insignificant of insignificantDigits | Significant of significantD
   let pctStr = Intl.NumberFormat.format formatter 0.984322 in
   Js.Console.log pctStr
  ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.NumberFormat.make(
+    ~locales=[|"fr"|],
+    ~style=Percent,
+    ~digits=Insignificant({integer: None, fraction: Some({maximum: Some(3), minimum: Some(3)})}),
+    ());
+  let pctStr = Intl.NumberFormat.format(formatter, 0.984322);
+  Js.Console.log(pctStr);
+ ]}
  *)
 val make: locales:string array -> ?localeMatcher:localeMatcher -> ?style:style -> ?useGrouping:bool -> ?digits:digits -> unit -> t
 
 (** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11.3.2} [Intl.NumberFormat.prototype.format]}.
+
+ OCaml:
 
  {[
   let formatter = Intl.NumberFormat.make
@@ -63,6 +79,18 @@ val make: locales:string array -> ?localeMatcher:localeMatcher -> ?style:style -
     () in
   let moneyStr = Intl.NumberFormat.format formatter 56456.897 in
   Js.Console.log moneyStr
+ ]}
+
+ Reason:
+ 
+ {[
+  let formatter = Intl.NumberFormat.make(
+    ~locales=[|"es-ES"|],
+    ~style=Currency({isoCode: "EUR", display: Some(Symbol)}),
+    ~digits=Significant({maximum: Some(2), minimum: Some(2)}),
+    ());
+  let moneyStr = Intl.NumberFormat.format(formatter, 56456.897);
+  Js.Console.log(moneyStr);
  ]}
  *)
 val format: t -> float -> string
@@ -85,6 +113,8 @@ exception InvalidPart of rawPart
 
  @raise [InvalidPart] if a part type doesn't match the possible types outlined in MDN.
 
+ OCaml:
+
  {[
   let formatter = Intl.NumberFormat.make
     ~locales:[|"es-ES"|]
@@ -93,17 +123,41 @@ exception InvalidPart of rawPart
     () in
   let parts = Intl.NumberFormat.formatToParts formatter 2000000.0 in
   match parts with
-  | [] -> ()
+  | [||] -> ()
   | { value = value; _ } :: _ -> Js.Console.log value
+ ]}
+
+ Reason:
+
+ {[
+  let formatter = Intl.NumberFormat.make(
+    ~locales=[|"es-ES"|],
+    ~style=Currency({isoCode: "EUR", display: Some(Symbol)}),
+    ~digits=Significant({maximum: Some(2), minimum: Some(2)}),
+    ());
+  let parts = Intl.NumberFormat.formatToParts(formatter, 2000000.0);
+  switch (parts) {
+  | [||] => ()
+  | [|{value: value}, ..._|] => Js.Console.log(value)
+  }
  ]}
  *)
 val formatToParts: t -> float -> part array
 
 (** Calls {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11.2.2} [Intl.NumberFormat.supportedLocalesOf]}.
 
+ OCaml:
+
  {[
   let supported = Intl.NumberFormat.supportedLocalesOf [|"en-GB"; "ridiculous"|] () in
   Js.Console.log (string_of_int (Belt.Array.length supported))
+ ]}
+
+ Reason:
+
+ {[
+  let supported = Intl.NumberFormat.supportedLocalesOf([|"en-GB", "ridiculous"|], ());
+  Js.Console.log(string_of_int(Belt.Array.length(supported)));
  ]}
  *)
 val supportedLocalesOf: string array -> ?localeMatcher:localeMatcher -> unit -> string array
