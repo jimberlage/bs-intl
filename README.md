@@ -5,6 +5,10 @@
 
 A port of the [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) utilities of JS to Reason.
 
+## Documentation
+
+Docs are hosted at https://jimberlage.github.io/bs-intl/
+
 ## Installation
 
 ```bash
