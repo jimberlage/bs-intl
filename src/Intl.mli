@@ -10,3 +10,7 @@ module DateTimeFormat = Intl_DateTimeFormat
 (** Handles functions related to the {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat} [Intl.NumberFormat]} object.
  *)
 module NumberFormat = Intl_NumberFormat
+
+(** Handles functions related to the {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules} [Intl.PluralRules]} object.
+ *)
+module PluralRules = Intl_PluralRules
