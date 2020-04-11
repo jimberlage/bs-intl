@@ -10,18 +10,18 @@ type t
 (** @see <https://www.ecma-international.org/ecma-402/1.0/#table-3> See this table for an overview of what strings these types match with.
  *)
 
-type day = Numeric | TwoDigit
-type era = Long | Short | Narrow
-type formatMatcher = Basic | BestFit
-type hour = Numeric | TwoDigit
-type hourCycle = H11 | H12 | H23 | H24
-type localeMatcher = Lookup | BestFit
-type minute = Numeric | TwoDigit
-type month = Numeric | TwoDigit | Long | Short | Narrow
-type second = Numeric | TwoDigit
-type timeZoneName = Long | Short
-type weekday = Long | Short | Narrow
-type year = Numeric | TwoDigit
+type day = [ `Numeric | `TwoDigit ]
+type era = [ `Long | `Short | `Narrow ]
+type formatMatcher = [ `Basic | `BestFit ]
+type hour = [ `Numeric | `TwoDigit ]
+type hourCycle = [ `H11 | `H12 | `H23 | `H24 ]
+type localeMatcher = [ `Lookup | `BestFit ]
+type minute = [ `Numeric | `TwoDigit ]
+type month = [ `Numeric | `TwoDigit | `Long | `Short | `Narrow ]
+type second = [ `Numeric | `TwoDigit ]
+type timeZoneName = [ `Long | `Short ]
+type weekday = [ `Long | `Short | `Narrow ]
+type year = [ `Numeric | `TwoDigit ]
 
 (** Create a new [Intl.DateTimeFormat] object with the specified options.
  

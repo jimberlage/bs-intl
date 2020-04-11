@@ -2,7 +2,7 @@ open Belt.Option
 
 type t
 
-type localeMatcher = Lookup | BestFit
+type localeMatcher = [ `Lookup | `BestFit ]
 type currencyDisplay = Symbol | Code | Name
 type currency = {
   isoCode: string;
@@ -73,8 +73,8 @@ external supportedLocalesOf_: string array -> supportedLocalesOfOptions -> strin
 let supportedLocalesOf locales ?localeMatcher () =
   let opts = supportedLocalesOfOptions () in
   let localeMatcher' = map localeMatcher (fun (lm: localeMatcher) -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
     if isSome localeMatcher' then localeMatcherSet opts (getExn localeMatcher');
     supportedLocalesOf_ locales opts
 
@@ -95,8 +95,8 @@ external newJSNumberFormat: string array -> newNumberFormatOptions -> t = "Numbe
 
 let make ~locales ?localeMatcher ?style ?useGrouping ?digits () =
   let localeMatcher' = map localeMatcher (fun lm -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
   let style' = map style (fun (s: style) -> match s with
   | Decimal -> "decimal"
   | Percent -> "percent"

@@ -7,7 +7,7 @@ Note that nodejs does {b not} come with the necessary internationalization files
 (** The {{:https://www.ecma-international.org/ecma-402/1.0/#sec-11} [Intl.NumberFormat]} type. *)
 type t
 
-type localeMatcher = Lookup | BestFit
+type localeMatcher = [ `Lookup | `BestFit ]
 type currencyDisplay = Symbol | Code | Name
 type currency = {
   isoCode: string;
