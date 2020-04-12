@@ -2,18 +2,18 @@ open Belt.Option
 
 type t
 
-type day = Numeric | TwoDigit
-type era = Long | Short | Narrow
-type formatMatcher = Basic | BestFit
-type hour = Numeric | TwoDigit
-type hourCycle = H11 | H12 | H23 | H24
-type localeMatcher = Lookup | BestFit
-type minute = Numeric | TwoDigit
-type month = Numeric | TwoDigit | Long | Short | Narrow
-type second = Numeric | TwoDigit
-type timeZoneName = Long | Short
-type weekday = Long | Short | Narrow
-type year = Numeric | TwoDigit
+type day = [ `Numeric | `TwoDigit ]
+type era = [ `Long | `Short | `Narrow ]
+type formatMatcher = [ `Basic | `BestFit ]
+type hour = [ `Numeric | `TwoDigit ]
+type hourCycle = [ `H11 | `H12 | `H23 | `H24 ]
+type localeMatcher = [ `Lookup | `BestFit ]
+type minute = [ `Numeric | `TwoDigit ]
+type month = [ `Numeric | `TwoDigit | `Long | `Short | `Narrow ]
+type second = [ `Numeric | `TwoDigit ]
+type timeZoneName = [ `Long | `Short ]
+type weekday = [ `Long | `Short | `Narrow ]
+type year = [ `Numeric | `TwoDigit ]
 
 exception InvalidWeekday of string
 exception InvalidEra of string
@@ -25,63 +25,63 @@ exception InvalidMinute of string
 exception InvalidSecond of string
 exception InvalidTimeZoneName of string
 
-let weekdayFromString s: weekday =
+let weekdayFromString s =
   match s with
-  | "narrow" -> Narrow
-  | "short" -> Short
-  | "long" -> Long
+  | "narrow" -> `Narrow
+  | "short" -> `Short
+  | "long" -> `Long
+  | _ -> raise (InvalidWeekday s)
+
+let eraFromString s =
+  match s with
+  | "narrow" -> `Narrow
+  | "short" -> `Short
+  | "long" -> `Long
   | _ -> raise (InvalidEra s)
 
-let eraFromString s: era =
+let yearFromString s =
   match s with
-  | "narrow" -> Narrow
-  | "short" -> Short
-  | "long" -> Long
-  | _ -> raise (InvalidEra s)
-
-let yearFromString s: year =
-  match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
   | _ -> raise (InvalidYear s)
 
-let monthFromString s: month =
+let monthFromString s =
   match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
-  | "narrow" -> Narrow
-  | "short" -> Short
-  | "long" -> Long
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
+  | "narrow" -> `Narrow
+  | "short" -> `Short
+  | "long" -> `Long
   | _ -> raise (InvalidMonth s)
 
-let dayFromString s: day =
+let dayFromString s =
   match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
   | _ -> raise (InvalidDay s)
 
-let hourFromString s: hour =
+let hourFromString s =
   match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
   | _ -> raise (InvalidHour s)
 
-let minuteFromString s: minute =
+let minuteFromString s =
   match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
   | _ -> raise (InvalidMinute s)
 
-let secondFromString s: second =
+let secondFromString s =
   match s with
-  | "2-digit" -> TwoDigit
-  | "numeric" -> Numeric
+  | "2-digit" -> `TwoDigit
+  | "numeric" -> `Numeric
   | _ -> raise (InvalidSecond s)
 
-let timeZoneNameFromString s: timeZoneName =
+let timeZoneNameFromString s =
   match s with
-  | "short" -> Short
-  | "long" -> Long
+  | "short" -> `Short
+  | "long" -> `Long
   | _ -> raise (InvalidTimeZoneName s)
 
 type rawResolvedOptionsResp = {
@@ -186,8 +186,8 @@ external supportedLocalesOf_: string array -> supportedLocalesOfOptions -> strin
 let supportedLocalesOf locales ?localeMatcher () =
   let opts = supportedLocalesOfOptions () in
   let localeMatcher' = map localeMatcher (fun (lm: localeMatcher) -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
     if isSome localeMatcher' then localeMatcherSet opts (getExn localeMatcher');
     supportedLocalesOf_ locales opts
 
@@ -211,49 +211,49 @@ type newDateTimeFormatOptions = {
 external newJSDateTimeFormat: string array -> newDateTimeFormatOptions -> t = "DateTimeFormat" [@@bs.new][@@bs.scope "Intl"]
 
 let make ~locales ?day ?era ?formatMatcher ?hour ?hour12 ?hourCycle ?localeMatcher ?minute ?month ?second ?timeZone ?timeZoneName ?weekday ?year () =
-  let day' = map day (fun (d: day) -> match d with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit") in
-  let era' = map era (fun (e: era) -> match e with
-  | Long -> "long"
-  | Short -> "short"
-  | Narrow -> "narrow") in
+  let day' = map day (fun (d) -> match d with
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit") in
+  let era' = map era (fun (e) -> match e with
+  | `Long -> "long"
+  | `Short -> "short"
+  | `Narrow -> "narrow") in
   let formatMatcher' = map formatMatcher (fun (fm: formatMatcher) -> match fm with
-  | Basic -> "basic"
-  | BestFit -> "best fit") in
+  | `Basic -> "basic"
+  | `BestFit -> "best fit") in
   let hour' = map hour (fun (h: hour) -> match h with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit") in
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit") in
   let hourCycle' = map hourCycle (fun (hc: hourCycle) -> match hc with
-  | H11 -> "h11"
-  | H12 -> "h12"
-  | H23 -> "h23"
-  | H24 -> "h24") in
+  | `H11 -> "h11"
+  | `H12 -> "h12"
+  | `H23 -> "h23"
+  | `H24 -> "h24") in
   let localeMatcher' = map localeMatcher (fun (lm: localeMatcher) -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
   let minute' = map minute (fun (m: minute) -> match m with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit") in
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit") in
   let month' = map month (fun (m: month) -> match m with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit"
-  | Long -> "long"
-  | Short -> "short"
-  | Narrow -> "narrow") in
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit"
+  | `Long -> "long"
+  | `Short -> "short"
+  | `Narrow -> "narrow") in
   let second' = map second (fun (s: second) -> match s with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit") in
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit") in
   let timeZoneName' = map timeZoneName (fun (tzn: timeZoneName) -> match tzn with
-  | Long -> "long"
-  | Short -> "short") in
+  | `Long -> "long"
+  | `Short -> "short") in
   let weekday' = map weekday (fun (w: weekday) -> match w with
-  | Long -> "long"
-  | Short -> "short"
-  | Narrow -> "narrow") in
+  | `Long -> "long"
+  | `Short -> "short"
+  | `Narrow -> "narrow") in
   let year' = map year (fun (y: year) -> match y with
-  | Numeric -> "numeric"
-  | TwoDigit -> "2-digit") in
+  | `Numeric -> "numeric"
+  | `TwoDigit -> "2-digit") in
   let opts = newDateTimeFormatOptions () in
     if isSome day' then day_Set opts (getExn day');
     if isSome era' then era_Set opts (getExn era');

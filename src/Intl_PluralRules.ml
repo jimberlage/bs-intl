@@ -2,7 +2,7 @@ open Belt.Option
 
 type t
 
-type localeMatcher = Lookup | BestFit
+type localeMatcher = [ `Lookup | `BestFit ]
 type type_ = Cardinal | Ordinal
 
 external select: t -> float -> string = "select" [@@bs.send]
@@ -16,8 +16,8 @@ external supportedLocalesOf_: string array -> supportedLocalesOfOptions -> strin
 let supportedLocalesOf locales ?localeMatcher () =
   let opts = supportedLocalesOfOptions () in
   let localeMatcher' = map localeMatcher (fun (lm: localeMatcher) -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
     if isSome localeMatcher' then localeMatcherSet opts (getExn localeMatcher');
     supportedLocalesOf_ locales opts
 
@@ -30,8 +30,8 @@ external newJSPluralRules: string array -> newPluralRulesOptions -> t = "PluralR
 
 let make ~locales ?localeMatcher ?type_ () =
   let localeMatcher' = map localeMatcher (fun lm -> match lm with
-  | Lookup -> "lookup"
-  | BestFit -> "best fit") in
+  | `Lookup -> "lookup"
+  | `BestFit -> "best fit") in
   let type_' = map type_ (fun t -> match t with
   | Cardinal -> "cardinal"
   | Ordinal -> "ordinal") in

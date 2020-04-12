@@ -7,7 +7,7 @@ Note that nodejs does {b not} come with the necessary internationalization files
 (** The {{:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules} [Intl.PluralRules]} type. *)
 type t
 
-type localeMatcher = Lookup | BestFit
+type localeMatcher = [ `Lookup | `BestFit ]
 type type_ = Cardinal | Ordinal
 
 (** Create a new [Intl.PluralRules] object with the specified options.
